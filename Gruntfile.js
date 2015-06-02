@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     },
     watch: {
       scripts: {
-        files: ["Gruntfile.js", "src/**/*.js", "spec/**/*.js"],
+        files: ["Gruntfile.js", "src/**/*.js", "test/**/*.js"],
         tasks: ["jshint", "jasmine"]
       }
     }
