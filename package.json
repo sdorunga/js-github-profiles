@@ -4,7 +4,7 @@
   "description": "Real-time application that searches for github username and displays stats based on the results returned by the GitHub API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/karma/bin/karma start karma.conf.js"
   },
   "author": "Stefan Dorunga",
   "license": "ISC",
