@@ -59,6 +59,10 @@ describe('GitUserSearchController', function() {
       httpBackend.flush();
     });
 
+    it('does not request information from github with an empty search term', function() {
+      ctrl.doSearch();
+    });
+
     describe('when search has already been performed', function() {
       it('does not request new data from github', function() {
         ctrl.searchTerm = "Hola";
@@ -88,7 +92,6 @@ describe('GitUserSearchController', function() {
         httpBackend.flush();
         ctrl.searchTerm = "Hola";
         ctrl.doSearch();
-        console.log(ctrl.searchTerm);
         expect(ctrl.searchResult).toEqual(items);
       });
     });
