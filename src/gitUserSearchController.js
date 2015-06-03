@@ -1,8 +1,9 @@
 githubUserSearch.controller('GitUserSearchController', [function() {
-  var self = this
+  var self = this;
 
-  self.searchResult = {
-    "items": [
+  self.doSearch = function() {
+    console.log("Hello World");
+    self.searchResult = {"items": [
       {
         "login": "tansaku",
         "avatar_url": "https://avatars.githubusercontent.com/u/30216?v=3",
@@ -14,5 +15,6 @@ githubUserSearch.controller('GitUserSearchController', [function() {
         "html_url": "https://github.com/stephenlloyd"
       }
     ]
+    };
   };
 }]);
