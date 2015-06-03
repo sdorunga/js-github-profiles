@@ -20,9 +20,7 @@ describe('GitUserSearchController', function() {
       httpBackend = $httpBackend
       httpBackend
         .when("GET", "https://api.github.com/search/users?access_token=7bd574ea7118f0870cc23b89e7e1a748b18ba58a&q=Hola")
-        .respond(
-          items
-        );
+        .respond({items: items});
     }));
 
     afterEach(function() {
@@ -47,7 +45,7 @@ describe('GitUserSearchController', function() {
       ctrl.searchTerm = "Hola";
       ctrl.doSearch();
       httpBackend.flush();
-      expect(ctrl.searchResult).toEqual(items);
+      expect(ctrl.searchResult).toEqual({items: items});
     });
 
     it('requests user information from github', function() {

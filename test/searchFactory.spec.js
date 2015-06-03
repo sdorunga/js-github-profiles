@@ -24,7 +24,7 @@ describe('factory: Search', function() {
     httpBackend = $httpBackend
     httpBackend
       .when("GET", "https://api.github.com/search/users?access_token=7bd574ea7118f0870cc23b89e7e1a748b18ba58a&q=Hola")
-      .respond(items);
+      .respond({items: items});
   }));
 
   afterEach(function() {
@@ -37,10 +37,7 @@ describe('factory: Search', function() {
   });
 
   it('returns search results', function() {
-    search.query('Hola')
-      .then(function(response) {
-        expect(response.data).toEqual(items)
-      });
+    expect(search.query('Hola')).toEqual(items);
     httpBackend.flush();
   });
 });
