@@ -6,7 +6,7 @@ githubUserSearch.factory('Search', ['$http', function($http) {
         url: queryUrl,
         method: "Get",
         params: {
-          'q': searchTerm
+          'q': searchTerm,
         }
       });
     }
