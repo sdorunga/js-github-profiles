@@ -58,5 +58,39 @@ describe('GitUserSearchController', function() {
       ctrl.doSearch();
       httpBackend.flush();
     });
+
+    describe('when search has already been performed', function() {
+      it('does not request new data from github', function() {
+        ctrl.searchTerm = "Hola";
+        ctrl.doSearch();
+        httpBackend.flush();
+        ctrl.doSearch();
+      });
+
+      it('returns the same results as before', function() {
+        ctrl.searchTerm = "Hola";
+        ctrl.doSearch();
+        httpBackend.flush();
+        ctrl.doSearch();
+        expect(ctrl.searchResult).toEqual(items);
+      });
+
+      it('returns the same results as before if another search is performed in between', function() {
+        httpBackend
+          .when("GET", "https://api.github.com/search/users?access_token=f472860a1867db5184611f9bb6251df1014c09f3&q=Ebola")
+          .respond([])
+
+        ctrl.searchTerm = "Hola";
+        ctrl.doSearch();
+        httpBackend.flush();
+        ctrl.searchTerm = "Ebola";
+        ctrl.doSearch();
+        httpBackend.flush();
+        ctrl.searchTerm = "Hola";
+        ctrl.doSearch();
+        console.log(ctrl.searchTerm);
+        expect(ctrl.searchResult).toEqual(items);
+      });
+    });
   });
 })
