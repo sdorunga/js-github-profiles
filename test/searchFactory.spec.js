@@ -23,7 +23,7 @@ describe('factory: Search', function() {
   beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend
     httpBackend
-      .when("GET", "https://api.github.com/search/users?access_token=7bd574ea7118f0870cc23b89e7e1a748b18ba58a&q=Hola")
+      .when("GET", "https://api.github.com/search/users?access_token=f472860a1867db5184611f9bb6251df1014c09f3&q=Hola")
       .respond(items);
   }));
 
