@@ -9,6 +9,7 @@
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="src/app.js"></script>
     <script src="src/gitUserSearchController.js"></script>
+    <script src="src/searchFactory.js"></script>
   </head>
 
   <body ng-controller="GitUserSearchController as searchCtrl">
@@ -16,10 +17,11 @@
       <form class="form-horizontal">
         <input type="text" ng-model="searchCtrl.searchTerm" ng-change="searchCtrl.doSearch()" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 500, 'blur': 0}}">
         <button class="btn" ng-click="searchCtrl.doSearch()">Search</button>
+        <label>{{searchCtrl.searchTerm}}</label>
       </form>
       <ul class="list-group" ng-repeat="user in searchCtrl.searchResult.items">
         <li class="list-group-item">
-          <img ng-src="{{user.avatar_url}}&s=50">
+          <img ng-src="{{user.avatar_url}}&s=50" height="50" width="50">
           <a ng-href="{{user.html_url}}">{{user.login}}</a>
         </li>
       </ul>
