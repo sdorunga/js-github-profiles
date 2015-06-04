@@ -1,34 +1,4 @@
 describe('GitUserSearchController', function() {
-  beforeEach(module('GitUserSearch'));
-
-  var ctrl;
-
-  beforeEach(inject(function($controller) {
-    ctrl = $controller('GitUserSearchController');
-  }));
-
-
-  it('initialises with an empty search result and term', function() {
-    expect(ctrl.searchResult).toBeUndefined();
-    expect(ctrl.searchTerm).toBeUndefined();
-  });
-
-  describe('when searching for a user', function() {
-    var httpBackend;
-
-    beforeEach(inject(function($httpBackend) {
-      httpBackend = $httpBackend
-      httpBackend
-        .when("GET", "https://api.github.com/search/users?access_token=f472860a1867db5184611f9bb6251df1014c09f3&q=Hola")
-        .respond(
-          items
-        );
-    }));
-
-    afterEach(function() {
-      httpBackend.verifyNoOutstandingExpectation();
-      httpBackend.verifyNoOutstandingRequest();
-    });
 
     var items = [
       {
@@ -43,20 +13,34 @@ describe('GitUserSearchController', function() {
       }
     ];
 
+  beforeEach(module('GitUserSearch'));
+  beforeEach(module(function($provide) {
+    $provide.service("Search", function() {
+      this.query = jasmine.createSpy('Search').and.callFake(function(){return items});//{then: function(){ return items}}})
+    });
+  }));
+
+  var ctrl;
+
+  beforeEach(inject(function($controller) {
+    ctrl = $controller('GitUserSearchController');
+  }));
+
+  var mockSearch;
+  beforeEach(inject(function(Search, $q) {
+    mockSearch = Search
+  }))
+
+  it('initialises with an empty search result and term', function() {
+    expect(ctrl.searchResult).toBeUndefined();
+    expect(ctrl.searchTerm).toBeUndefined();
+  });
+
+  describe('when searching for a user', function() {
     it('displays search results', function() {
       ctrl.searchTerm = "Hola";
       ctrl.doSearch();
-      httpBackend.flush();
       expect(ctrl.searchResult).toEqual(items);
-    });
-
-    it('requests user information from github', function() {
-      httpBackend
-        .expect("GET", "https://api.github.com/search/users?access_token=f472860a1867db5184611f9bb6251df1014c09f3&q=Hola")
-
-      ctrl.searchTerm = "Hola";
-      ctrl.doSearch();
-      httpBackend.flush();
     });
 
     it('does not request information from github with an empty search term', function() {
@@ -67,29 +51,21 @@ describe('GitUserSearchController', function() {
       it('does not request new data from github', function() {
         ctrl.searchTerm = "Hola";
         ctrl.doSearch();
-        httpBackend.flush();
         ctrl.doSearch();
       });
 
       it('returns the same results as before', function() {
         ctrl.searchTerm = "Hola";
         ctrl.doSearch();
-        httpBackend.flush();
         ctrl.doSearch();
         expect(ctrl.searchResult).toEqual(items);
       });
 
       it('returns the same results as before if another search is performed in between', function() {
-        httpBackend
-          .when("GET", "https://api.github.com/search/users?access_token=f472860a1867db5184611f9bb6251df1014c09f3&q=Ebola")
-          .respond([])
-
         ctrl.searchTerm = "Hola";
         ctrl.doSearch();
-        httpBackend.flush();
         ctrl.searchTerm = "Ebola";
         ctrl.doSearch();
-        httpBackend.flush();
         ctrl.searchTerm = "Hola";
         ctrl.doSearch();
         expect(ctrl.searchResult).toEqual(items);

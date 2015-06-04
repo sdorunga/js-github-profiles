@@ -1,7 +1,7 @@
 githubUserSearch.controller('GitUserSearchController', ['Search', 'searchCache', function(Search, searchCache) {
   var self = this;
 
-  self.searchCache = searchCache;
+  //self.searchCache = searchCache;
   self.doSearch = function() {
     if(self.searchTerm) {
       if(self.searchCache.get(self.searchTerm)) {
